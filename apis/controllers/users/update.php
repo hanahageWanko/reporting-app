@@ -1,89 +1,80 @@
 <?php
-require_once __DIR__ . '/../headers/update.php';
+require_once __DIR__ . '/../../headers/update.php';
 
 if ($_SERVER["REQUEST_METHOD"] != "PUT"):
   echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
   return;
 endif;
 
-$db = new CreateDBinstance();
-$conn = $db->dbInstanceConnection();
-$data = $db->setContent();
+$data = json_decode(file_get_contents("php://input"));
 
 $table_users = $_SERVER['T_USER'];
-$update_query = "UPDATE `$table_users` SET 
+$updateQuery = "UPDATE `$table_users`
+                SET 
                   user_name = :user_name, 
                   email = :email, 
                   password = :password,
-                  delete_flg = :delete_flg,
                   last_login_time = :last_login_time,
                   update_date = :update_date,
                   create_date = :create_date
-                  WHERE id = :id";
+                WHERE id = :id";
 
 // 変更対象が存在するかどうかを検索
-if (isset($data->id)) {
-  try {
-    $post_id  = $data->id;
-    $get_post = "SELECT * FROM `$table_users` WHERE id=:post_id";
-    $get_stmt = $conn->prepare($get_post);
-    $get_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-    $get_stmt->execute();
-    if ($get_stmt->rowCount() > 0) {
-
-      $user_name   = trim($data->user_name);
-      $email       = trim($data->email);
-      $password    = trim($data->password);
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
-        echo json_encode(Validate::resultMessage(0, 422, 'Invalid Email Address!'));
+if (!isset($data->id) || empty($data->id)) {
+    echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID')) ;
+    return;
+}
+try {
+    $postId  = $data->id;
+    $getPostQuery = "SELECT * FROM `$table_users` WHERE id=:postId";
+    $getPost = Database::select($getPostQuery, [':postId' => $postId]);
+    
+    if ($getPost->rowCount() === 0) {
         return;
-      endif;
+    }
 
-      if (strlen($password) < 8):
-          echo json_encode(Validate::resultMessage(0, 422, 'Your password must be at least 8 characters long!'));
-          return;
-      endif;
+    $user_name   = trim($data->user_name);
+    $email       = trim($data->email);
+    $password    = trim($data->password);
+  
+    if (!Validate::mailFormat($email, 'Invalid Email Address!')) {
+        return;
+    }
 
-      if (strlen($user_name) < 3):
-          echo json_encode(Validate::resultMessage(0, 422, 'Your name must be at least 3 characters long!'));
-          return;
-      endif;
+    if (!Validate::lessThanStr($password, 8, 'Your password must be at least 8 characters long!')) {
+        return;
+    }
 
-      $check_email = "SELECT `email` FROM $table_users WHERE `email`=:email";
-      $check_email_stmt = $conn->prepare($check_email);
-      $check_email_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-      $check_email_stmt->execute();
+    if (!Validate::lessThanStr($user_name, 3, 'Your name must be at least 3 characters long!')) {
+        return;
+    }
 
-      if ($check_email_stmt->rowCount()):
+    $checkEmail = "SELECT `email` FROM $table_users WHERE `email`=:email";
+    $checkItem = Database::select($checkEmail, [':email' => $email]);
+    $row = $getPost->fetch(PDO::FETCH_ASSOC);
+    if ($checkItem->rowCount() > 0 && $row['email'] !== $email) {
         echo json_encode(Validate::resultMessage(0, 422, 'This E-mail already in use!'));
         return;
-      else:
-        $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
-        $post_user_name       = updateBindValue($row, $data, 'user_name');
-        $post_email           = updateBindValue($row, $data, 'email');
-        $post_password        = updateBindValue($row, $data, 'password');
-        $post_delete_flg      = updateBindValue($row, $data, 'delete_flg');
-        $post_last_login_time = updateBindValue($row, $data, 'last_login_time');
-        $post_update_date     = date('Y-m-d-H-i');
-        $post_create_date     = $row['create_date'];
-
-        $update_stmt = $conn->prepare($update_query);
-        $update_stmt->bindValue(':user_name',       htmlspecialchars(strip_tags($post_user_name)), PDO::PARAM_STR);
-        $update_stmt->bindValue(':email',           htmlspecialchars(strip_tags($post_email)), PDO::PARAM_STR);
-        $update_stmt->bindValue(':password',        password_hash( $post_password, PASSWORD_DEFAULT), PDO::PARAM_STR);
-        $update_stmt->bindValue(':delete_flg',      $post_delete_flg, PDO::PARAM_INT);
-        $update_stmt->bindValue(':last_login_time', $post_last_login_time, PDO::PARAM_STR);
-        $update_stmt->bindValue(':update_date',     $post_update_date, PDO::PARAM_STR);
-        $update_stmt->bindValue(':create_date',     $post_create_date, PDO::PARAM_STR);
-        $update_stmt->bindValue(':id',              $post_id, PDO::PARAM_INT);
-        $update_stmt->execute();
-        echo json_encode(Validate::resultMessage(0, 200, 'Data updated successfully'));
-      endif;
     }
-  } catch (PDOException $e) {
-    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
-  }
-} else {
-  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID')) ;
-}
 
+    $postUserName       = Database::updateBindValue($row, $data, 'user_name');
+    $postEmail          = Database::updateBindValue($row, $data, 'email');
+    $postPassword       = Database::updateBindValue($row, $data, 'password');
+    $postLastLoginTime  = date('Y-m-d-H-i');
+    $postUpdateDate     = date('Y-m-d-H-i');
+    $postCreateDate     = $row['create_date'];
+    
+    $postItem = [
+      ':id' => $postId,
+      ':user_name' => $postUserName,
+      ':email' => $postEmail,
+      ':password' => password_hash($postPassword, PASSWORD_DEFAULT),
+      ':last_login_time' => $postLastLoginTime,
+      ':update_date' => $postUpdateDate,
+      ':create_date' => $postCreateDate
+    ];
+    Database::post($updateQuery, $postItem);
+    echo json_encode(Validate::resultMessage(0, 200, 'Data updated successfully'));
+} catch (PDOException $e) {
+    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
+}

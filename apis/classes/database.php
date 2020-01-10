@@ -65,4 +65,9 @@
           $stmt->execute();
           return $stmt;
       }
+
+      public static function updateBindValue($row, $data, $value) {
+        return !empty($data->$value) ? $data->$value : $row[$value];
+      }
+
   }
