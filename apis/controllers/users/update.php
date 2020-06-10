@@ -1,9 +1,8 @@
 <?php
 require_once __DIR__ . '/../headers/update.php';
-require_once __DIR__ . '/../classes/validate.php';
 
 if ($_SERVER["REQUEST_METHOD"] != "PUT"):
-  echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
+  echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
   return;
 endif;
 
@@ -36,17 +35,17 @@ if (isset($data->id)) {
       $email       = trim($data->email);
       $password    = trim($data->password);
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
-        echo json_encode(validate\Validate::resultMessage(0, 422, 'Invalid Email Address!'));
+        echo json_encode(Validate::resultMessage(0, 422, 'Invalid Email Address!'));
         return;
       endif;
 
       if (strlen($password) < 8):
-          echo json_encode(validate\Validate::resultMessage(0, 422, 'Your password must be at least 8 characters long!'));
+          echo json_encode(Validate::resultMessage(0, 422, 'Your password must be at least 8 characters long!'));
           return;
       endif;
 
       if (strlen($user_name) < 3):
-          echo json_encode(validate\Validate::resultMessage(0, 422, 'Your name must be at least 3 characters long!'));
+          echo json_encode(Validate::resultMessage(0, 422, 'Your name must be at least 3 characters long!'));
           return;
       endif;
 
@@ -56,7 +55,7 @@ if (isset($data->id)) {
       $check_email_stmt->execute();
 
       if ($check_email_stmt->rowCount()):
-        echo json_encode(validate\Validate::resultMessage(0, 422, 'This E-mail already in use!'));
+        echo json_encode(Validate::resultMessage(0, 422, 'This E-mail already in use!'));
         return;
       else:
         $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
@@ -78,13 +77,13 @@ if (isset($data->id)) {
         $update_stmt->bindValue(':create_date',     $post_create_date, PDO::PARAM_STR);
         $update_stmt->bindValue(':id',              $post_id, PDO::PARAM_INT);
         $update_stmt->execute();
-        echo json_encode(validate\Validate::resultMessage(0, 200, 'Data updated successfully'));
+        echo json_encode(Validate::resultMessage(0, 200, 'Data updated successfully'));
       endif;
     }
   } catch (PDOException $e) {
-    echo json_encode(validate\Validate::resultMessage(0, 500, $e->getMessage()));
+    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
   }
 } else {
-  echo json_encode(validate\Validate::resultMessage(0, 400, 'Invlid ID')) ;
+  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID')) ;
 }
 

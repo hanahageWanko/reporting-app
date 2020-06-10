@@ -40,4 +40,8 @@
             return $stmt->fetchAll();
           }
       }
+
+      public static function insert($query, $params = array()) {
+        
+      }
   }

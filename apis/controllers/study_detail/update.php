@@ -1,10 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../headers/update.php';
-require_once __DIR__ . '/../classes/validate.php';
 
 if ($_SERVER["REQUEST_METHOD"] != "PUT"):
-  echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
+  echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
   return;
 endif;
 
@@ -32,7 +31,7 @@ if (isset($data->id)) {
                 $get_stmt->execute();
     if ($get_stmt->rowCount() > 0) {
       if (400 < strlen($study_detail)):
-        echo json_encode(validate\Validate::resultMessage(0, 422, 'The study details can be up to 400 characters.'));
+        echo json_encode(Validate::resultMessage(0, 422, 'The study details can be up to 400 characters.'));
         return;
       endif;
       $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
@@ -52,11 +51,11 @@ if (isset($data->id)) {
       $update_stmt->bindValue(':user_id', $post_user_id, PDO::PARAM_INT);
       $update_stmt->bindValue(':create_date', $post_create_date, PDO::PARAM_STR);
       $update_stmt->execute();
-      echo json_encode(validate\Validate::resultMessage(0, 200, 'Data updated successfully'));
+      echo json_encode(Validate::resultMessage(0, 200, 'Data updated successfully'));
     } 
   } catch (PDOException $e) {
-    echo json_encode(validate\Validate::resultMessage(0, 500, $e->getMessage()));
+    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
   }
 } else {
-  echo json_encode(validate\Validate::resultMessage(0, 400, 'Invlid ID'));
+  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
 }

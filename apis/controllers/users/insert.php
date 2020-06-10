@@ -1,9 +1,8 @@
 <?php
-  require_once __DIR__ . '/../headers/insert.php';
-  require_once __DIR__ . '/../classes/validate.php';
+  require_once __DIR__ . '/../../headers/insert.php';
  
   if ($_SERVER["REQUEST_METHOD"] != "POST"):
-    echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
+    echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
     return;
   endif;
 
@@ -19,7 +18,7 @@
     || empty(trim($data->password))
     ):
     $fields = ['fields' => ['user_name', 'email', 'password']];
-    echo json_encode(validate\Validate::resultMessage(0, 422, 'Please Fill in all Required Fields!', $fields));
+    echo json_encode(Validate::resultMessage(0, 422, 'Please Fill in all Required Fields!', $fields));
     return;
   endif;
 
@@ -29,17 +28,17 @@
   $password    = trim($data->password);
 
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
-      echo json_encode(validate\Validate::resultMessage(0, 422, 'Invalid Email Address!'));
+      echo json_encode(Validate::resultMessage(0, 422, 'Invalid Email Address!'));
       return;
   endif;
 
   if (strlen($password) < 8):
-      echo json_encode(validate\Validate::resultMessage(0, 422, 'Your password must be at least 8 characters long!'));
+      echo json_encode(Validate::resultMessage(0, 422, 'Your password must be at least 8 characters long!'));
       return;
   endif;
 
   if (strlen($user_name) < 3):
-      echo json_encode(validate\Validate::resultMessage(0, 422, 'Your name must be at least 3 characters long!'));
+      echo json_encode(Validate::resultMessage(0, 422, 'Your name must be at least 3 characters long!'));
       return;
   endif;
 
@@ -50,7 +49,7 @@
       $check_email_stmt->execute();
 
       if ($check_email_stmt->rowCount()):
-        echo json_encode(validate\Validate::resultMessage(0, 422, 'This E-mail already in use!'));
+        echo json_encode(Validate::resultMessage(0, 422, 'This E-mail already in use!'));
         return;
       else:
         $insert_query = "INSERT INTO `$table_users` (user_name, email, password) VALUES(:user_name, :email, :password)";
@@ -59,9 +58,9 @@
       $insert_stmt->bindValue(':email', htmlspecialchars(strip_tags($email)), PDO::PARAM_STR);
       $insert_stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
       $insert_stmt->execute();
-      echo json_encode(validate\Validate::resultMessage(1, 201, 'You have successfully registered.'));
+      echo json_encode(Validate::resultMessage(1, 201, 'You have successfully registered.'));
       endif;
   } catch (PDOException $e) {
-      echo json_encode(validate\Validate::resultMessage(0, 500, $e->getMessage()));
+      echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
       return;
   }

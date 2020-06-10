@@ -7,7 +7,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require __DIR__ . '/classes/dbconnection.php';
 require __DIR__.'/middlewares/auth.php';
-require_once __DIR__ . '/classes/validate.php';
 
 $allHeaders = getallheaders();
 $db = new CreateDBinstance();
@@ -17,6 +16,6 @@ $auth = new Auth($conn, $allHeaders);
 if($auth->isAuth()) {
   echo json_encode($auth->isAuth());
 } else {
-  echo json_encode(validate\Validate::resultMessage(0, 401, 'Unauthorized'));
+  echo json_encode(Validate::resultMessage(0, 401, 'Unauthorized'));
 }
 

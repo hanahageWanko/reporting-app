@@ -1,9 +1,8 @@
 <?php
   require_once __DIR__ . '/../headers/insert.php';
-  require_once __DIR__ . '/../classes/validate.php';
 
   if ($_SERVER["REQUEST_METHOD"] != "POST"):
-    echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
+    echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
     return;
   endif;
 
@@ -21,7 +20,7 @@
     || empty($study_date)
     ):
     $fields = ['fields' => ['study_time', 'project_id', 'study_detail', 'study_date', 'user_id']];
-    echo json_encode(validate\Validate::resultMessage(0, 422, 'Please Fill in all Required Fields!', $fields));
+    echo json_encode(Validate::resultMessage(0, 422, 'Please Fill in all Required Fields!', $fields));
     return;
   endif;
 
@@ -35,7 +34,7 @@
   $insert_query = "INSERT INTO `$table_study` (study_time, project_id, study_detail, study_date, user_id) VALUES(:study_time, :project_id, :study_detail, :study_date, :user_id)";
 
 if (400 < strlen($study_detail)):
-    echo json_encode(validate\Validate::resultMessage(0, 422, 'The study details can be up to 400 characters.'));
+    echo json_encode(Validate::resultMessage(0, 422, 'The study details can be up to 400 characters.'));
     return;
 endif;
 
@@ -47,8 +46,8 @@ try {
     $insert_stmt->bindValue(':study_date', htmlspecialchars(strip_tags($study_date)), PDO::PARAM_STR);
     $insert_stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $insert_stmt->execute();
-    echo json_encode(validate\Validate::resultMessage(0, 201, 'Data Inserted Successfully'));
+    echo json_encode(Validate::resultMessage(0, 201, 'Data Inserted Successfully'));
 } catch (PDOException $e) {
-    echo json_encode(validate\Validate::resultMessage(0, 500, $e->getMessage()));
+    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
     return;
 }

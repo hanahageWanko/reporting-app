@@ -1,6 +1,4 @@
 <?php
-namespace validate;
-
 class Validate
 {
     public static function resultMessage($success, $status, $message, $extra = [])
