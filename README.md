@@ -39,7 +39,6 @@
 ### 学習記録管理
 |URL|機能概要|
 |--|--|
-
 |${baseurl}/api/study_detail/read.php| 登録学習記録の一覧取得(紐づいているユーザー名/プロジェクト名含む)|
 |${baseurl}/api/study_detail/read.php?user_id=(number)| 任意ユーザーの学習記録一覧(紐づいているユーザー名/プロジェクト名含む)を取得|
 |${baseurl}/api/study_detail/insert.php| 学習記録登録|
