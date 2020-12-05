@@ -1,5 +1,5 @@
 <?php
-  require './env.php';
+  require __DIR__ . '/env.php';
   class Database
   {
       private $db_host;

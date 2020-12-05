@@ -6,7 +6,7 @@
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
 
-  require '../database.php';
+  require __DIR__ . '/../database.php';
   $db_connection = new Database();
   $conn = $db_connection->dbConnection();
   $table_users = $_SERVER['T_USER'];

@@ -7,7 +7,7 @@
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, passwordization, X-Requested-With");
   
   // INCLUDING DATABASE AND MAKING OBJECT
-  require '../database.php';
+  require __DIR__ . '/../database.php';
   $db_connection = new Database();
   $conn = $db_connection->dbConnection();
 
