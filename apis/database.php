@@ -1,5 +1,6 @@
 <?php
   require __DIR__ . '/env.php';
+  date_default_timezone_set('Asia/Tokyo');
   class Database
   {
       private $db_host;
