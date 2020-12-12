@@ -37,7 +37,7 @@
         'id' => $row['id'],
         'email' => $row['email'], 
         'user_name' => $row['user_name'],
-        'login_time' => $row['login_time'],
+        'last_login_time' => $row['last_login_time'],
         'create_date' => $row['create_date'],
         'update_date' => $row['update_date']
       ];
