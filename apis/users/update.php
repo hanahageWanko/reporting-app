@@ -30,6 +30,7 @@ $update_query = "UPDATE `$table_users` SET
                   create_date = :create_date
                   WHERE id = :id";
 
+// 変更対象が存在するかどうかを検索
 if (isset($data->id)) {
   $post_id  = $data->id;
   $get_post = "SELECT * FROM `$table_users` WHERE id=:post_id";
