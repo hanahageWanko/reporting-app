@@ -5,7 +5,6 @@
   header("Access-Control-Allow-Methods: GET");
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
-
   require __DIR__ . '/../database.php';
   $db_connection = new Database();
   $conn = $db_connection->dbConnection();
@@ -34,12 +33,12 @@
     $post_array = [];
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $post_data = [
-        'id' => $row['id'],
-        'email' => $row['email'], 
-        'user_name' => $row['user_name'],
+        'id'              => $row['id'],
+        'email'           => $row['email'], 
+        'user_name'       => $row['user_name'],
         'last_login_time' => $row['last_login_time'],
-        'create_date' => $row['create_date'],
-        'update_date' => $row['update_date']
+        'create_date'     => $row['create_date'],
+        'update_date'     => $row['update_date']
       ];
       array_push($post_array, $post_data);
     }

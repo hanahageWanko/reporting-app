@@ -10,8 +10,8 @@
 
       public function __construct()
       {
-          $this->db_host = $_SERVER['DB_HOST'];
-          $this->db_name = $_SERVER['DB_NAME'];
+          $this->db_host     = $_SERVER['DB_HOST'];
+          $this->db_name     = $_SERVER['DB_NAME'];
           $this->db_username = $_SERVER['DB_USERNAME'];
           $this->db_password = $_SERVER['DB_PASSWORD'];
       }

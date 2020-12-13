@@ -38,24 +38,24 @@ if (isset($data->id)) {
   $get_stmt->execute();
   if($get_stmt->rowCount() > 0) {
     $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
-    $post_user_name  = isset($user_name)   ? $user_name   : $row['user_name'];
-    $post_email      = isset($email)       ? $email       : $row['email'];
-    $post_password   = isset($password)    ? $password    : $row['password'];
-    $post_delete_flg      = isset($delete_flg)  ? $delete_flg  : $row['delete_flg'];
+    $post_user_name       = isset($user_name)       ? $user_name       : $row['user_name'];
+    $post_email           = isset($email)           ? $email           : $row['email'];
+    $post_password        = isset($password)        ? $password        : $row['password'];
+    $post_delete_flg      = isset($delete_flg)      ? $delete_flg      : $row['delete_flg'];
     $post_last_login_time = isset($last_login_time) ? $last_login_time : $row['last_login_time'];
-    $post_update_date = isset($update_date) ? $update_date : $row['update_date'];
+    $post_update_date     = $update_date;
     $post_create_date     = $row['create_date']; 
 
     $update_stmt = $conn->prepare($update_query);
 
-    $update_stmt->bindValue(':user_name', htmlspecialchars(strip_tags($post_user_name)),PDO::PARAM_STR);
-    $update_stmt->bindValue(':email', htmlspecialchars(strip_tags($post_email)),PDO::PARAM_STR);
-    $update_stmt->bindValue(':password', htmlspecialchars(strip_tags($post_pasword)),PDO::PARAM_STR);
-    $update_stmt->bindValue(':delete_flg', $post_delete_flg, PDO::PARAM_INT);
+    $update_stmt->bindValue(':user_name',       htmlspecialchars(strip_tags($post_user_name)),PDO::PARAM_STR);
+    $update_stmt->bindValue(':email',           htmlspecialchars(strip_tags($post_email)),PDO::PARAM_STR);
+    $update_stmt->bindValue(':password',        $post_password,PDO::PARAM_STR);
+    $update_stmt->bindValue(':delete_flg',      $post_delete_flg, PDO::PARAM_INT);
     $update_stmt->bindValue(':last_login_time', $post_last_login_time, PDO::PARAM_STR);
-    $update_stmt->bindValue(':update_date', $post_update_date, PDO::PARAM_STR);
-    $update_stmt->bindValue(':create_date', $post_create_date, PDO::PARAM_STR);
-    $update_stmt->bindValue(':id', $post_id, PDO::PARAM_INT);
+    $update_stmt->bindValue(':update_date',     $post_update_date, PDO::PARAM_STR);
+    $update_stmt->bindValue(':create_date',     $post_create_date, PDO::PARAM_STR);
+    $update_stmt->bindValue(':id',              $post_id, PDO::PARAM_INT);
   }
   $msg['message'] = $update_stmt->execute() ? 'Data updated successfully' : 'data not updated'; 
 
