@@ -4,10 +4,10 @@
   header("Access-Control-Allow-Methods: DELETE");
   header("Content-Type: application/json; charset=UTF-8");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-  require __DIR__ . '/../database.php';
-  $db_connection = new Database();
-  $conn = $db_connection->dbConnection();
+  require __DIR__ . '/../dbconnection.php';
+  
+  $db = new CreateDBinstance();
+  $conn = $db->dbInstanceConnection();
   $table_users = $_SERVER['T_USER'];
 
   $data = json_decode(file_get_contents("php://input"));

@@ -5,9 +5,10 @@
   header("Access-Control-Allow-Methods: GET");
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
-  require __DIR__ . '/../database.php';
-  $db_connection = new Database();
-  $conn = $db_connection->dbConnection();
+  require __DIR__ . '/../dbconnection.php';
+  
+  $db = new CreateDBinstance();
+  $conn = $db->dbInstanceConnection();
   $table_users = $_SERVER['T_USER'];
 
   if(isset($_GET['id'])) {

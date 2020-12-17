@@ -4,13 +4,11 @@
   header("Access-Control-Allow-Methods: POST");
   header("Content-Type: application/json; charset=UTF-8");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, passwordization, X-Requested-With");
+  require __DIR__ . '/../dbconnection.php';
   
-  require __DIR__ . '/../database.php';
-  $db_connection = new Database();
-  $conn = $db_connection->dbConnection();
-
-  $data = json_decode(file_get_contents("php://input"));
-
+  $db = new CreateDBinstance();
+  $conn = $db->dbInstanceConnection();
+  $data = $db->setContent();
   $msg['message'] = '';
   $message = [
     'success' => 'Data Inserted Successfully',

@@ -4,12 +4,11 @@
   header("Access-Control-Allow-Methods: GET");
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
+  require __DIR__ . '/../dbconnection.php';
 
-  require __DIR__ . '/../database.php';
-  $db_connection = new Database();
-  $conn = $db_connection->dbConnection();
+  $db = new CreateDBinstance();
+  $conn = $db->dbInstanceConnection();
   $table_study = $_SERVER['T_STUDY'];
-
   if(isset($_GET['id'])) {
     $post_id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
       'options' => [
