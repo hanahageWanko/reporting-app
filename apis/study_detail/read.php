@@ -5,9 +5,12 @@
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
   require __DIR__ . '/../dbconnection.php';
+  require_once __DIR__ . '/../messages.php';
 
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
+  $message = new Messages();
+
   $table_study = $_SERVER['T_STUDY'];
   if(isset($_GET['id'])) {
     $post_id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
@@ -44,7 +47,7 @@
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(['message' => 'No post found']);
+    echo json_encode(['message' => $message->returnNoPostFound]);
   }
 
 ?>

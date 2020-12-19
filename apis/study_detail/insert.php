@@ -5,17 +5,14 @@
   header("Content-Type: application/json; charset=UTF-8");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, passwordization, X-Requested-With");
   require __DIR__ . '/../dbconnection.php';
+  require_once __DIR__ . '/../messages.php';
   
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
+
   $msg['message'] = '';
-  $message = [
-    'success' => 'Data Inserted Successfully',
-    'failure' => 'Data not Inserted',
-    'empty_field' => 'Oops! empty field detected. Please fill all the fields',
-    'missing_field' => 'Please fill all the fields',
-  ];
+  $message = new Messages();
 
   $table_study     = $_SERVER['T_STUDY'];
   $study_time      = $data->study_time;
@@ -36,13 +33,12 @@ if (isset($study_time) && isset($study_category) && isset($study_detail) && isse
         $insert_stmt->bindValue(':study_date'    , htmlspecialchars(strip_tags($study_date)), PDO::PARAM_STR);
         $insert_stmt->bindValue(':user_id'       , $user_id, PDO::PARAM_INT);
 
-        $msg['message'] = $insert_stmt->execute() ? $message['success'] : $message['failure'];
+        $msg['message'] = $insert_stmt->execute() ? $message->returnSuccess() : $message->returnFailure();
     } else {
-        $msg['message'] = $message['empty_field'];
+        $msg['message'] = $message->returnEmptyField();
     }
 } else {
-    $msg['message'] = $message['missing_field'];
+    $msg['message'] = $message->returnMissingField();
 }
-//ECHO DATA IN JSON FORMAT
 
 echo json_encode($msg);

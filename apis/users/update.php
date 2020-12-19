@@ -6,13 +6,17 @@ header("Access-Control-Allow-Methods: PUT");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 require __DIR__ . '/../dbconnection.php';
+require_once __DIR__ . '/../messages.php';
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
 $data = $db->setContent();
-$table_users = $_SERVER['T_USER'];
 
 $msg['message'] = '';
+$message = new Messages();
+
+$table_users = $_SERVER['T_USER'];
+
 $user_name   = $data->user_name;
 $email       = $data->email;
 $password    = $data->password;
@@ -57,10 +61,10 @@ if (isset($data->id)) {
     $update_stmt->bindValue(':create_date',     $post_create_date, PDO::PARAM_STR);
     $update_stmt->bindValue(':id',              $post_id, PDO::PARAM_INT);
   }
-  $msg['message'] = $update_stmt->execute() ? 'Data updated successfully' : 'data not updated'; 
+  $msg['message'] = $update_stmt->execute() ? $message->returnSuccess() : $message->returnFailure(); 
 
 } else {
-  $msg['message'] = 'Invlid ID';
+  $msg['message'] = $message->returnInvlidId();
 }
 
 echo  json_encode($msg);

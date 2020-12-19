@@ -6,9 +6,11 @@
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
   require __DIR__ . '/../dbconnection.php';
+  require_once __DIR__ . '/../messages.php';
   
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
+  $message = new Messages();
   $table_users = $_SERVER['T_USER'];
 
   if(isset($_GET['id'])) {
@@ -45,7 +47,7 @@
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(['message' => 'No post found']);
+    echo json_encode(['message' => $message->returnNoPostFound()]);
   }
 
 ?>

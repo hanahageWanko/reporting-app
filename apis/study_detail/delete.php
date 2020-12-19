@@ -5,12 +5,16 @@
   header("Content-Type: application/json; charset=UTF-8");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
   require __DIR__ . '/../dbconnection.php';
+  require_once __DIR__ . '/../messages.php';
   
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
-  $table_study = $_SERVER['T_STUDY'];
+
   $msg['message'] = '';
+  $message = new Messages();
+
+  $table_study = $_SERVER['T_STUDY'];
   $post_id = $data->id;
   $check_post = "SELECT * FROM `$table_study` WHERE id=:post_id";
   $delete_post = "DELETE FROM `$table_study` WHERE id=:post_id";
@@ -23,9 +27,9 @@
     if($check_post_stmt->rowCount() > 0){
       $delete_post_stmt = $conn->prepare($delete_post);
       $delete_post_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-      $msg['message'] = $delete_post_stmt->execute() ? 'Post Deleted Successfully' : 'Post Not Deleted';
+      $msg['message'] = $delete_post_stmt->execute() ? $message->returnSuccess() : $message->returnFailure();
     } else {
-      $msg['message'] = 'Invlid ID';
+      $msg['message'] = $message->returnInvlidId();
     }
     echo json_encode($msg);
   } 
