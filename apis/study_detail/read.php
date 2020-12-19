@@ -37,7 +37,7 @@
       $post_data = [
         'id'              => $row['id'],
         'study_time'      => $row['study_time'], 
-        'study_category'  => $row['study_category'],
+        'project_category'  => $row['project_category'],
         'study_detail'    => $row['study_detail'],
         'study_date'      => $row['study_date'],
         'user_id'         => $row['user_id'],
