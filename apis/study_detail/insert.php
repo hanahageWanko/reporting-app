@@ -33,12 +33,12 @@ if (isset($study_time) && isset($study_category) && isset($study_detail) && isse
         $insert_stmt->bindValue(':study_date'    , htmlspecialchars(strip_tags($study_date)), PDO::PARAM_STR);
         $insert_stmt->bindValue(':user_id'       , $user_id, PDO::PARAM_INT);
 
-        $msg['message'] = $insert_stmt->execute() ? $message->returnSuccess() : $message->returnFailure();
+        $msg['message'] = $insert_stmt->execute() ? $message->Success() : $message->Failure();
     } else {
-        $msg['message'] = $message->returnEmptyField();
+        $msg['message'] = $message->EmptyField();
     }
 } else {
-    $msg['message'] = $message->returnMissingField();
+    $msg['message'] = $message->MissingField();
 }
 
 echo json_encode($msg);

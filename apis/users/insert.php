@@ -28,12 +28,12 @@ if (isset($user_name) && isset($email) && isset($password)) {
         $insert_stmt->bindValue(':email',     htmlspecialchars(strip_tags($email)), PDO::PARAM_STR);
         $insert_stmt->bindValue(':password',  htmlspecialchars(strip_tags($password)), PDO::PARAM_STR);
       
-        $msg['message'] = $insert_stmt->execute() ? $message->returnSuccess() : $message->returnFailure();
+        $msg['message'] = $insert_stmt->execute() ? $message->Success() : $message->Failure();
     } else {
-        $msg['message'] = $message->returnEmptyField();
+        $msg['message'] = $message->EmptyField();
     }
 } else {
-    $msg['message'] = $message->returnMissingField();
+    $msg['message'] = $message->MissingField();
 }
 
 echo json_encode($msg);

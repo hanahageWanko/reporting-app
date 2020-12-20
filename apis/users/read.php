@@ -47,7 +47,7 @@
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(['message' => $message->returnNoPostFound()]);
+    echo json_encode(['message' => $message->NoPostFound()]);
   }
 
 ?>

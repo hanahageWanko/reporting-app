@@ -61,10 +61,10 @@ if (isset($data->id)) {
     $update_stmt->bindValue(':create_date',     $post_create_date, PDO::PARAM_STR);
     $update_stmt->bindValue(':id',              $post_id, PDO::PARAM_INT);
   }
-  $msg['message'] = $update_stmt->execute() ? $message->returnSuccess() : $message->returnFailure(); 
+  $msg['message'] = $update_stmt->execute() ? $message->Success() : $message->Failure(); 
 
 } else {
-  $msg['message'] = $message->returnInvlidId();
+  $msg['message'] = $message->InvlidId();
 }
 
 echo  json_encode($msg);

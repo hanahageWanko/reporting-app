@@ -10,27 +10,27 @@ class Messages
       'no_post_found' => 'No post found'
     ];
 
-  public function returnSuccess() {
+  public function Success() {
     return $this->message['success'];
   }
 
-  public function returnFailure() {
+  public function Failure() {
     return $this->message['failure'];
   }
 
-  public function returnEmptyField() {
+  public function EmptyField() {
     return $this->message['empty_field'];
   }
 
-  public function returnMissingField() {
+  public function MissingField() {
     return $this->message['missing_field'];
   }
 
-  public function returnInvlidId() {
+  public function InvlidId() {
     return $this->message['invlid_id'];
   }
 
-  public function returnNoPostFound() {
+  public function NoPostFound() {
     return $this->message['no_post_found'];
   }
 

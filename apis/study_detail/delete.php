@@ -27,9 +27,9 @@
     if($check_post_stmt->rowCount() > 0){
       $delete_post_stmt = $conn->prepare($delete_post);
       $delete_post_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-      $msg['message'] = $delete_post_stmt->execute() ? $message->returnSuccess() : $message->returnFailure();
+      $msg['message'] = $delete_post_stmt->execute() ? $message->Success() : $message->Failure();
     } else {
-      $msg['message'] = $message->returnInvlidId();
+      $msg['message'] = $message->InvlidId();
     }
     echo json_encode($msg);
   } 
