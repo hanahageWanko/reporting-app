@@ -10,10 +10,12 @@ require_once __DIR__ . '/../messages.php';
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
-$table_study = $_SERVER['T_STUDY'];
+$data = $db->setContent();
 
 $msg['message'] = '';
 $message = new Messages();
+
+$table_study = $_SERVER['T_STUDY'];
 
 $study_time     = $data->study_time;
 $project_category = $data->project_category;
@@ -29,7 +31,9 @@ $update_query = "UPDATE `$table_study` SET
                   WHERE id = :id";
 
 // 変更対象が存在するかどうかを検索
+var_dump($data->id);
 if (isset($data->id)) {
+  // $get_stmt = CreateDBinstance::searchId($conn, $table_study, $data->id);
   $post_id  = $data->id;
   $get_post = "SELECT * FROM `$table_study` WHERE id=:post_id";
   $get_stmt = $conn->prepare($get_post);
