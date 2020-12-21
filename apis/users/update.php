@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../headers/udpate.php';
+require_once __DIR__ . '/../headers/update.php';
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
@@ -35,6 +35,7 @@ if (isset($data->id)) {
   $get_stmt->execute();
   if($get_stmt->rowCount() > 0) {
     $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
+    var_dump(strval($user_name));
     $post_user_name       = isset($user_name)       ? $user_name       : $row['user_name'];
     $post_email           = isset($email)           ? $email           : $row['email'];
     $post_password        = isset($password)        ? $password        : $row['password'];

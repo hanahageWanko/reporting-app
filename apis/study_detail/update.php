@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../headers/udpate.php';
+require_once __DIR__ . '/../headers/update.php';
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
