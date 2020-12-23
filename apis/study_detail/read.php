@@ -14,7 +14,7 @@
       ]
     ]);
   } else {
-    $_post_id = 'all_posts';
+    $post_id = 'all_posts';
   }
 
   $sql = is_numeric($post_id)

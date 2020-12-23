@@ -4,9 +4,8 @@
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
   $message = new Messages();
-  
-  $table_users = $_SERVER['T_USER'];
 
+  $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
   if(isset($_GET['id'])) {
     $post_id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
       'options' => [
@@ -19,8 +18,8 @@
   }
 
   $sql = is_numeric($post_id)
-         ? "SELECT * FROM `$table_users` WHERE id ='$post_id'"
-         : "SELECT * FROM `$table_users`";
+         ? "SELECT * FROM `$table_project_category` WHERE id ='$post_id'"
+         : "SELECT * FROM `$table_project_category`";
 
   $stmt = $conn->prepare($sql);
 
@@ -31,17 +30,16 @@
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $post_data = [
         'id'              => $row['id'],
-        'email'           => $row['email'], 
-        'user_name'       => $row['user_name'],
-        'last_login_time' => $row['last_login_time'],
-        'create_date'     => $row['create_date'],
-        'update_date'     => $row['update_date']
+        'name'      => $row['name'], 
+        'delete_flg'  => $row['delete_flg'],
+        'create_date'    => $row['create_date'],
+        'update_date'      => $row['update_date']
       ];
       array_push($post_array, $post_data);
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(['message' => $message->NoPostFound()]);
+    echo json_encode(['message' => $message->NoPostFound]);
   }
 
 ?>
