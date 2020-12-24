@@ -5,14 +5,14 @@
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
 
-  $table_users = $_SERVER['T_USER'];
+  $table_project_categoy = $_SERVER['T_PROJECT_CATEGORY'];
 
   $msg['message'] = '';
   $message = new Messages();
 
   $post_id = $data->id;
-  $check_post = "SELECT * FROM `$table_users` WHERE id=:post_id";
-  $delete_post = "DELETE FROM `$table_users` WHERE id=:post_id";
+  $check_post = "SELECT * FROM `$table_project_category` WHERE id=:post_id";
+  $delete_post = "DELETE FROM `$table_project_category` WHERE id=:post_id";
 
   // 削除対象が存在するかどうかを検索
   if(isset($post_id)) {
