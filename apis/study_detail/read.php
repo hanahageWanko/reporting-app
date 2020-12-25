@@ -9,8 +9,8 @@
   $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
   $table_users            = $_SERVER['T_USER'];
 
-  if(isset($_GET['id'])) {
-    $post_id = filter_var($_GET['id'], FILTER_VALIDATE_INT, [
+  if(isset($_GET['user_id'])) {
+    $post_id = filter_var($_GET['user_id'], FILTER_VALIDATE_INT, [
       'options' => [
         'default' => 'all_posts',
         'min_range' => 1
@@ -35,7 +35,7 @@
             ON s.project_id = p.id
             LEFT OUTER JOIN $table_users AS u
             ON s.user_id = u.id
-            WHERE s.id = $post_id;"
+            WHERE s.user_id = $post_id;"
         : "SELECT s.id,
                   s.study_time,
                   s.project_id,
