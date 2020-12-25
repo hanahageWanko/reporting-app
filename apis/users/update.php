@@ -37,10 +37,10 @@ if (isset($data->id)) {
     $post_create_date     = $row['create_date'];
 
     $update_stmt = $conn->prepare($update_query);
-
+    $options = [ 'cost' => 10 ];
     $update_stmt->bindValue(':user_name',       htmlspecialchars(strip_tags($post_user_name)), PDO::PARAM_STR);
     $update_stmt->bindValue(':email',           htmlspecialchars(strip_tags($post_email)), PDO::PARAM_STR);
-    $update_stmt->bindValue(':password',        $post_password, PDO::PARAM_STR);
+    $update_stmt->bindValue(':password',        password_hash( $post_password, PASSWORD_DEFAULT, $options), PDO::PARAM_STR);
     $update_stmt->bindValue(':delete_flg',      $post_delete_flg, PDO::PARAM_INT);
     $update_stmt->bindValue(':last_login_time', $post_last_login_time, PDO::PARAM_STR);
     $update_stmt->bindValue(':update_date',     $post_update_date, PDO::PARAM_STR);

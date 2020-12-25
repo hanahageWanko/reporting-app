@@ -31,7 +31,7 @@
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $post_data = [
         'id'              => $row['id'],
-        'email'           => $row['email'], 
+        'email'           => $row['email'],
         'user_name'       => $row['user_name'],
         'last_login_time' => $row['last_login_time'],
         'create_date'     => $row['create_date'],
