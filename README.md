@@ -23,7 +23,7 @@
 |--|--|
 |${baseurl}/project_category/read.php| 登録プロジェクトの一覧取得|
 |${baseurl}/project_category/read.php?id=(number)| 任意IDのプロジェク情報取得|
-|${baseurl}/project_category/insert.php| プロジェクト登録|
+|${baseurl}/project_category/insert.php| プロジェクトト登録|
 |${baseurl}/project_category/update.php| プロジェクトの登録内容を更新|
 |${baseurl}/project_category/delete.php| プロジェクトを削除|
 
