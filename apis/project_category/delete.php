@@ -5,7 +5,7 @@
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
 
-  $table_project_categoy = $_SERVER['T_PROJECT_CATEGORY'];
+  $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
 
   $msg['message'] = '';
   $message = new Messages();
