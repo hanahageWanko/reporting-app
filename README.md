@@ -43,4 +43,4 @@
 |${baseurl}/study_detail/read.php?user_id=(number)| 任意ユーザーの学習記録一覧(紐づいているユーザー名/プロジェクト名含む)を取得|
 |${baseurl}/study_detail/insert.php| 学習記録登録|
 |${baseurl}/study_detail/update.php| 学習記録内容を更新|
-|${baseurl}/study_detail/delete.php| 学習記録内容を削除|
+|${baseurl}/study_detail/delete.php| 学習記録内容を削除|# PHP-WebFramework
