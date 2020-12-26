@@ -21,26 +21,27 @@
 ### プロジェクト管理
 |URL|機能概要|
 |--|--|
-|${baseurl}/project_category/read.php| 登録プロジェクトの一覧取得|
-|${baseurl}/project_category/read.php?id=(number)| 任意IDのプロジェク情報取得|
-|${baseurl}/project_category/insert.php| プロジェクト登録|
-|${baseurl}/project_category/update.php| プロジェクトの登録内容を更新|
-|${baseurl}/project_category/delete.php| プロジェクトを削除|
+|${baseurl}/api/project_category/read.php| 登録プロジェクトの一覧取得|
+|${baseurl}/api/project_category/read.php?id=(number)| 任意IDのプロジェク情報取得|
+|${baseurl}/api/project_category/insert.php| プロジェクトト登録|
+|${baseurl}/api/project_category/update.php| プロジェクトの登録内容を更新|
+|${baseurl}/api/project_category/delete.php| プロジェクトを削除|
 
 ### ユーザー管理
 |URL|機能概要|
 |--|--|
-|${baseurl}/users/read.php| 登録ユーザーの一覧取得|
-|${baseurl}/users/read.php?id=(number)| 任意IDのユーザー情報取得|
-|${baseurl}/project_category/insert.php| ユーザー登録|
-|${baseurl}/project_category/update.php| ユーザーの登録内容を更新|
-|${baseurl}/project_category/delete.php| ユーザーを削除 & ユーザーに紐ついている学習詳細も削除|
+|${baseurl}/api/users/read.php| 登録ユーザーの一覧取得|
+|${baseurl}/api/users/read.php?id=(number)| 任意IDのユーザー情報取得|
+|${baseurl}/api/project_category/insert.php| ユーザー登録|
+|${baseurl}/api/project_category/update.php| ユーザーの登録内容を更新|
+|${baseurl}/api/project_category/delete.php| ユーザーを削除 & ユーザーに紐ついている学習詳細も削除|
 
 ### 学習記録管理
 |URL|機能概要|
 |--|--|
-|${baseurl}/study_detail/read.php| 登録学習記録の一覧取得(紐づいているユーザー名/プロジェクト名含む)|
-|${baseurl}/study_detail/read.php?user_id=(number)| 任意ユーザーの学習記録一覧(紐づいているユーザー名/プロジェクト名含む)を取得|
-|${baseurl}/study_detail/insert.php| 学習記録登録|
-|${baseurl}/study_detail/update.php| 学習記録内容を更新|
-|${baseurl}/study_detail/delete.php| 学習記録内容を削除|# PHP-WebFramework
+
+|${baseurl}/api/study_detail/read.php| 登録学習記録の一覧取得(紐づいているユーザー名/プロジェクト名含む)|
+|${baseurl}/api/study_detail/read.php?user_id=(number)| 任意ユーザーの学習記録一覧(紐づいているユーザー名/プロジェクト名含む)を取得|
+|${baseurl}/api/study_detail/insert.php| 学習記録登録|
+|${baseurl}/api/study_detail/update.php| 学習記録内容を更新|
+|${baseurl}/api/study_detail/delete.php| 学習記録内容を削除|
