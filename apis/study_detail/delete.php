@@ -1,9 +1,9 @@
 <?php
   require_once __DIR__ . '/../headers/delete.php';
-  require_once __DIR__ . '/../functions.php';
+  require_once __DIR__ . '/../classes/validate.php';
 
   if ($_SERVER["REQUEST_METHOD"] != "DELETE"):
-    echo json_encode(resultMessage(0, 405, 'Method Not Allowed'));
+    echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
     return;
   endif;
   
@@ -26,9 +26,9 @@
     if($check_post_stmt->rowCount() > 0){
       $delete_post_stmt = $conn->prepare($delete_post);
       $delete_post_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-      $msg['message'] = $delete_post_stmt->execute() ? resultMessage(0, 200, 'Post Deleted Successfuly') : resultMessage(0, 400, 'Post Not Deleted');
+      $msg['message'] = $delete_post_stmt->execute() ? validate\Validate::resultMessage(0, 200, 'Post Deleted Successfuly') : validate\Validate::resultMessage(0, 400, 'Post Not Deleted');
     } else {
-      $msg['message'] = resultMessage(0, 200, 'Invlid ID');
+      $msg['message'] = validate\Validate::resultMessage(0, 200, 'Invlid ID');
     }
     echo json_encode($msg);
   } 

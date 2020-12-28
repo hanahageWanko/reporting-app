@@ -1,17 +1,15 @@
 <?php
 require_once __DIR__ . '/../headers/update.php';
-require_once __DIR__ . '/../functions.php';
+require_once __DIR__ . '/../classes/validate.php';
 
 if ($_SERVER["REQUEST_METHOD"] != "PUT"):
-  echo json_encode(resultMessage(0, 405, 'Method Not Allowed'));
+  echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
   return;
 endif;
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
 $data = $db->setContent();
-
-$msg['message'] = '';
 
 $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
 $update_query = "UPDATE `$table_project_category` SET 
@@ -29,23 +27,31 @@ if (isset($data->id)) {
   $get_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
   $get_stmt->execute();
   if ($get_stmt->rowCount() > 0) {
-    $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
-    $post_name       = updateBindValue($row, $data, 'name');
-    $post_delete_flg = updateBindValue($row, $data, 'delete_flg');
-    $update_date     = updateBindValue($row, $data, 'update_date');
-    $post_update_date     = date('Y-m-d-H-i');
-    $post_create_date    = $row['create_date'];
+    if (100 < strlen($name)):
+      echo json_encode(validate\Validate::resultMessage(0, 422, 'The project category name can be up to 400 characters.'));
+      return;
+    endif;
+    try {
+        $row = $get_stmt->fetch(PDO::FETCH_ASSOC);
+        $post_name       = updateBindValue($row, $data, 'name');
+        $post_delete_flg = updateBindValue($row, $data, 'delete_flg');
+        $update_date     = updateBindValue($row, $data, 'update_date');
+        $post_update_date     = date('Y-m-d-H-i');
+        $post_create_date    = $row['create_date'];
 
-    $update_stmt = $conn->prepare($update_query);
-    $update_stmt->bindValue(':name',        htmlspecialchars(strip_tags($post_name)), PDO::PARAM_STR);
-    $update_stmt->bindValue(':delete_flg',  $post_delete_flg, PDO::PARAM_INT);
-    $update_stmt->bindValue(':update_date', $post_update_date, PDO::PARAM_STR);
-    $update_stmt->bindValue(':create_date', $post_create_date, PDO::PARAM_STR);
-    $update_stmt->bindValue(':id',          $post_id, PDO::PARAM_INT);
+        $update_stmt = $conn->prepare($update_query);
+        $update_stmt->bindValue(':name', htmlspecialchars(strip_tags($post_name)), PDO::PARAM_STR);
+        $update_stmt->bindValue(':delete_flg', $post_delete_flg, PDO::PARAM_INT);
+        $update_stmt->bindValue(':update_date', $post_update_date, PDO::PARAM_STR);
+        $update_stmt->bindValue(':create_date', $post_create_date, PDO::PARAM_STR);
+        $update_stmt->bindValue(':id', $post_id, PDO::PARAM_INT);
+        $update_stmt->execute();
+        echo json_encode(validate\Validate::resultMessage(0, 200, 'Data updated successfully'));
+
+    } catch (PDOException $e) {
+      echo json_encode(validate\Validate::resultMessage(0, 500, $e->getMessage()));
+    }
   }
-  $msg['message'] = $update_stmt->execute() ? resultMessage(0, 200, 'Data updated successfully') : resultMessage(0, 400, 'Data not updated');
 } else {
-  $msg['message'] = resultMessage(0, 400, 'Invlid ID');
+  $msg['message'] = validate\Validate::resultMessage(0, 400, 'Invlid ID');
 }
-
-echo json_encode($msg);

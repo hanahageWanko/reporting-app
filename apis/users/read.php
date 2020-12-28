@@ -1,9 +1,9 @@
 <?php
   require_once __DIR__ . '/../headers/read.php';
-  require_once __DIR__ . '/../functions.php';
+  require_once __DIR__ . '/../classes/validate.php';
 
   if ($_SERVER["REQUEST_METHOD"] != "GET"):
-    echo json_encode(resultMessage(0, 405, 'Method Not Allowed'));
+    echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
     return;
   endif;
 
@@ -46,7 +46,7 @@
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(resultMessage(0, 400, 'No post found'));
+    echo json_encode(validate\Validate::resultMessage(0, 400, 'No post found'));
   }
 
 ?>
