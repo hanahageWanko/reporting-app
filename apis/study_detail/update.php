@@ -8,7 +8,6 @@ $conn = $db->dbInstanceConnection();
 $data = $db->setContent();
 
 $msg['message'] = '';
-$message = new Messages();
 $table_study = $_SERVER['T_STUDY'];
 $update_query = "UPDATE `$table_study` SET 
                   study_time = :study_time, 
@@ -46,10 +45,10 @@ if (isset($data->id)) {
     $update_stmt->bindValue(':user_id',          $post_user_id, PDO::PARAM_INT);
     $update_stmt->bindValue(':create_date',      $post_create_date, PDO::PARAM_STR);
   }
-  $msg['message'] = $update_stmt->execute() ? $message->Success() : $message->Failure(); 
+  $msg['message'] = $update_stmt->execute() ? resultMessage(0, 200, 'Data updated successfully') : resultMessage(0, 400, 'Data not updated');
 
 } else {
-  $msg['message'] = $message->InvlidId();
+  $msg['message'] = resultMessage(0, 400, 'Invlid ID');
 }
 
 echo json_encode($msg);

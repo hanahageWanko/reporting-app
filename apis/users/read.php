@@ -1,9 +1,9 @@
 <?php
   require_once __DIR__ . '/../headers/read.php';
+  require_once __DIR__ . '/../functions.php';
 
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
-  $message = new Messages();
   
   $table_users = $_SERVER['T_USER'];
 
@@ -41,7 +41,7 @@
     }
     echo json_encode($post_array);
   } else {
-    echo json_encode(['message' => $message->NoPostFound()]);
+    echo json_encode(resultMessage(0, 400, 'No post found'));
   }
 
 ?>

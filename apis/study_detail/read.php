@@ -1,9 +1,9 @@
 <?php
    require_once __DIR__ . '/../headers/read.php';
+   require_once __DIR__ . '/../functions.php';
 
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
-  $message = new Messages();
 
   $table_study            = $_SERVER['T_STUDY'];
   $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
@@ -74,7 +74,7 @@
     echo json_encode($post_array);
     
   } else {
-    echo json_encode(['message' => $message->NoPostFound]);
+    echo json_encode(resultMessage(0, 400, 'No post found'));
   }
 
 ?>

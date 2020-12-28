@@ -7,7 +7,6 @@ $conn = $db->dbInstanceConnection();
 $data = $db->setContent();
 
 $msg['message'] = '';
-$message = new Messages();
 
 $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
 $update_query = "UPDATE `$table_project_category` SET 
@@ -39,9 +38,9 @@ if (isset($data->id)) {
     $update_stmt->bindValue(':create_date', $post_create_date, PDO::PARAM_STR);
     $update_stmt->bindValue(':id',          $post_id, PDO::PARAM_INT);
   }
-  $msg['message'] = $update_stmt->execute() ? $message->Success() : $message->Failure();
+  $msg['message'] = $update_stmt->execute() ? resultMessage(0, 200, 'Data updated successfully') : resultMessage(0, 400, 'Data not updated');
 } else {
-  $msg['message'] = $message->InvlidId();
+  $msg['message'] = resultMessage(0, 400, 'Invlid ID');
 }
 
 echo json_encode($msg);

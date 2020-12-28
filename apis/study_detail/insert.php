@@ -1,12 +1,12 @@
 <?php
   require_once __DIR__ . '/../headers/insert.php';
+  require_once __DIR__ . '/../functions.php';
   
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
 
   $msg['message'] = '';
-  $message = new Messages();
 
   $table_study     = $_SERVER['T_STUDY'];
   $study_time      = $data->study_time;
@@ -27,12 +27,13 @@ if (isset($study_time) && isset($project_id) && isset($study_detail) && isset($s
         $insert_stmt->bindValue(':study_date'   , htmlspecialchars(strip_tags($study_date)), PDO::PARAM_STR);
         $insert_stmt->bindValue(':user_id'      , $user_id, PDO::PARAM_INT);
 
-        $msg['message'] = $insert_stmt->execute() ? $message->Success() : $message->Failure();
+        $msg['message'] = $insert_stmt->execute() ?  resultMessage(0, 201, 'Data Inserted Successfully') : resultMessage(0, 400, 'Data not Inserted');
     } else {
-        $msg['message'] = $message->EmptyField();
+        $msg['message'] = resultMessage(0, 422, 'Empty field detected. Please fill all the fields');
     }
 } else {
-    $msg['message'] = $message->MissingField();
+    $fields = ['fields' => ['study_time', 'project_id', 'study_detail', 'study_date', 'user_id']];
+    $msg['message'] = resultMessage(0, 422, 'Please fill all the fields', $fields);
 }
 
 echo json_encode($msg);

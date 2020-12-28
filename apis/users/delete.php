@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../headers/delete.php';
+require_once __DIR__ . './functions.php';
 
 $db = new CreateDBinstance();
 $conn = $db->dbInstanceConnection();
@@ -10,7 +11,6 @@ $table_study = $_SERVER['T_STUDY'];
 $table_project_category['T_PROJECT_CATEGORY'];
 
 $msg['message'] = '';
-$message = new Messages();
 
 $post_id = $data->id;
 $check_post = "SELECT * FROM $table_users WHERE id=:post_id";
@@ -28,9 +28,9 @@ if (isset($post_id)) {
   if ($check_post_stmt->rowCount() > 0) {
     $delete_post_stmt = $conn->prepare($delete_post);
     $delete_post_stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-    $msg['message'] = $delete_post_stmt->execute() ? $message->Success() : $message->Failure();
+    $msg['message'] = $delete_post_stmt->execute() ? resultMessage(0, 200, 'Post Deleted Successfuly') : resultMessage(0, 400, 'Post Not Deleted');
   } else {
-    $msg['message'] = $message->InvlidId();
+    $msg['message'] = resultMessage(0, 400, 'Invlid ID');
   }
   echo json_encode($msg);
 }
