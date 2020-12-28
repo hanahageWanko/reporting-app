@@ -10,8 +10,6 @@
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
   $data = $db->setContent();
-  
-
 
   if (!isset($data->user_name)
     || !isset($data->email)
