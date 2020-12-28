@@ -1,6 +1,11 @@
 <?php
   require_once __DIR__ . '/../headers/insert.php';
   require_once __DIR__ . '/../functions.php';
+
+  if ($_SERVER["REQUEST_METHOD"] != "POST"):
+    echo json_encode(resultMessage(0, 405, 'Method Not Allowed'));
+    return;
+  endif;
   
   $db = new CreateDBinstance();
   $conn = $db->dbInstanceConnection();
