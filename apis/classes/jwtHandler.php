@@ -8,7 +8,7 @@
 
   class JwtHandler
   {
-      protected $jtw_secret;
+      protected $jwt_secret;
       protected $token;
       protected $issuedAt;
       protected $expire;

@@ -50,10 +50,10 @@
               if ($query_stmt->rowCount()) {
                   $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
                   return [
-              'success' => 1,
-              'statuc'  => 200,
-              'user'    => $row
-            ];
+                    'success' => 1,
+                    'statuc'  => 200,
+                    'user'    => $row
+                  ];
               } else {
                   return null;
               }
