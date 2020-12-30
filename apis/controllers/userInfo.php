@@ -1,18 +1,11 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: POST");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+require_once __DIR__ . '/../headers/userInfo.php';
 
-require __DIR__ . '/classes/dbconnection.php';
-require __DIR__.'/middlewares/auth.php';
+require __DIR__.'/../middlewares/auth.php';
 
 $allHeaders = getallheaders();
-$db = new CreateDBinstance();
-$conn = $db->dbInstanceConnection();
-$data = $db->setContent();
-$auth = new Auth($conn, $allHeaders);
+$db = Database::dbConnection();
+$auth = new Auth($db, $allHeaders);
 if($auth->isAuth()) {
   echo json_encode($auth->isAuth());
 } else {
