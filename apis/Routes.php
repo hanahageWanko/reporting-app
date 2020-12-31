@@ -56,6 +56,10 @@
       View::make('project_category/delete');
   });
 
-  Route::set('userInfo', function () {
-      View::make('userInfo');
+  Route::set('userinfo', function () {
+      View::make('userinfo');
+  });
+
+  Route::set('login', function () {
+      View::make('login');
   });
