@@ -1,15 +1,13 @@
 <?php
   require __DIR__ . '/../classes/JwtHandler.php';
-  require __DIR__ . '../classes/dbconnection.php';
 
   class Auth extends JwtHandler
   {
       protected $db;
       protected $headers;
       protected $token;
-      protected $db_name;
 
-      public function _construct($db, $headers)
+      public function __construct($db, $headers)
       {
           parent::__construct();
           $this->db = $db;
@@ -42,10 +40,10 @@
       {
         $table_users = $_SERVER['T_USER'];
               try {
-              $insert_query = "SELECT `name`, `email` FROM $table_users WHERE `id`=:id";
-              $query_stmt = $this->db->prepare($insert_query);
+                $fetch_user_by_id = "SELECT `user_name`, `email` FROM $table_users WHERE `id`=:id";
+              $query_stmt = $this->db->prepare($fetch_user_by_id);
               $query_stmt->bindValue(':id', $user_id, PDO::PARAM_INT);
-              $query_stmt->exeucte();
+              $query_stmt->execute();
 
               if ($query_stmt->rowCount()) {
                   $row = $query_stmt->fetch(PDO::FETCH_ASSOC);

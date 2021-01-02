@@ -49,9 +49,9 @@
           try {
               $decode = JWT::decode($jwt_token, $this->jwt_secret, array('HS256'));
               return [
-              "auth" => 1,
-              "data" => $decode->date
-          ];
+                "auth" => 1,
+                "data" => $decode->data
+            ];
           } catch (\Firebase\JWT\ExpiredException $e) {
               return $this->_errMsg($e->getMessage());
           } catch (\Firebase\JWT\SignatureInvalidException $e) {
