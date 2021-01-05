@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/database.php';
+require __DIR__ . '/Database.php';
 class CreateDBinstance {
   public function dbInstanceConnection()
   {
