@@ -1,23 +1,26 @@
 <?php
 class Route
 {
+    // Check if the target URI exists in the routing.
+    // If it exists, return 1.
     public function isRouteValid()
     {
         global $Routes;
         $uri = $_SERVER['REQUEST_URI'];
-        if (!in_array(explode('?', $uri)[0], $Routes)) {
+        if (!in_array(explode('?', $uri)[0], $Routes, true)) {
             return 0;
         } else {
             return 1;
         }
     }
 
+    // Register the route in a global variable.
     private static function registerRoute($route)
     {
         global $Routes;
         $Routes[] = "/".$route;
     }
-
+    // Dynamic routing
     public static function dyn($dyn_routes)
     {
         $route_components = explode('/', $dyn_routes);
@@ -35,13 +38,29 @@ class Route
     {
         if ($_SERVER['REQUEST_URI'] == "/".$route) {
             self::registerRoute($route);
+            var_dump("1".$route);
             $closure->__invoke();
-        } elseif (explode('?', $_SERVER['REQUEST_URI'])[0] == __DIR__."/".$route) {
+        } elseif (explode('?', $_SERVER['REQUEST_URI'])[0] == "/".$route) {
+            var_dump("2".$route);
             self::registerRoute($route);
             $closure->__invoke();
         } elseif ($_GET['url'] == explode('/', $route)[0]) {
+            var_dump("3".$route);
             self::registerRoute(self::dyn($route));
             $closure->__invoke();
         }
+    }
+
+    public static function get() {
+        global $Routes;
+        $uri = $_SERVER['REQUEST_URI'];
+        if(!in_array(explode('?',$uri)[0], $Routes, true)) {
+            die('Invalid route.');
+        }
+        return $uri;
+    }
+
+    public function run() {
+        $this->get();
     }
 }

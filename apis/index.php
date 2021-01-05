@@ -11,4 +11,7 @@ function classLoad($class) {
 }
 require_once('Routes.php');
 
+$checkRoute = new Route();
+$checkRoute->run();
+
 ?>

@@ -1,6 +1,6 @@
 <?php
   Route::set('', function () {
-      View::make('Route');
+      View::make('index');
   });
   
   Route::set('about-us', function () {
