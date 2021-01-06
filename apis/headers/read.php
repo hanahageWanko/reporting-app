@@ -4,5 +4,4 @@
   header("Access-Control-Allow-Methods: GET");
   header("Access-Control-Allow-Credentials: true");
   header("Content-Type: application/json; charset=UTF-8");
-  require __DIR__ . '/../classes/dbconnection.php';
 ?>

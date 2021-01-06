@@ -9,7 +9,8 @@ function classLoad($class) {
     require_once __DIR__ . "/Controllers/{$class}.php";
   }
 }
-require_once('Routes.php');
+require_once "Routes.php";
+require_once "classes/Database.php";
 
 $checkRoute = new Route();
 $checkRoute->run();

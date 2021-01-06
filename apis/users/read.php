@@ -6,9 +6,6 @@
     echo json_encode(validate\Validate::resultMessage(0, 405, 'Method Not Allowed'));
     return;
   endif;
-
-  $db = new CreateDBinstance();
-  $conn = $db->dbInstanceConnection();
   
   $table_users = $_SERVER['T_USER'];
 
@@ -26,11 +23,7 @@
   $sql = is_numeric($post_id)
          ? "SELECT * FROM `$table_users` WHERE id ='$post_id'"
          : "SELECT * FROM `$table_users`";
-
-  $stmt = $conn->prepare($sql);
-
-  $stmt->execute();
-
+  $stmt = Database::query($sql);
   if($stmt->rowCount() > 0) {
     $post_array = [];
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
