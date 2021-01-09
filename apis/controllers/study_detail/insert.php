@@ -34,7 +34,6 @@ try {
     echo json_encode(Validate::resultMessage(0, 422, 'This user does not exist.'));
     return;
   }
-  return;
   $insert = Database::post($query, ['study_time'=>$study_time, 'project_id'=>$project_id, 'study_detail'=>$study_detail, 'study_date'=>$study_date, 'user_id'=>$user_id]);
   if($insert) {
     echo json_encode(Validate::resultMessage(0, 201, 'Data Inserted Successfully'));
