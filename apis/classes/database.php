@@ -1,5 +1,4 @@
 <?php
-  require __DIR__ . '/../env.php';
   date_default_timezone_set('Asia/Tokyo');
 
   class Database
@@ -21,12 +20,24 @@
           }
       }
 
-      public static function query($query, $params = array())
+      public static function select($query, $params = array())
       {
           $stmt = self::dbConnection();
           $stmt = $stmt->prepare($query);
-          $stmt->execute($params);
-          // $data = $stmt->fetchAll();
-          return $stmt;
+          $stmt->execute();
+          if ($stmt->rowCount() > 0 && $params) {
+              $postArray = [];
+              while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                foreach ($params as $param) {
+                  $arrayData = [
+                   "$param" => $row["$param"]
+                  ];
+                  array_push($postArray, $arrayData);
+                }
+              }
+              return $postArray;
+          } else if($stmt->rowCount() > 0) {
+            return $stmt->fetchAll();
+          }
       }
   }

@@ -38,14 +38,11 @@ class Route
     {
         if ($_SERVER['REQUEST_URI'] == "/".$route) {
             self::registerRoute($route);
-            var_dump("1".$route);
             $closure->__invoke();
         } elseif (explode('?', $_SERVER['REQUEST_URI'])[0] == "/".$route) {
-            var_dump("2".$route);
             self::registerRoute($route);
             $closure->__invoke();
         } elseif ($_GET['url'] == explode('/', $route)[0]) {
-            var_dump("3".$route);
             self::registerRoute(self::dyn($route));
             $closure->__invoke();
         }

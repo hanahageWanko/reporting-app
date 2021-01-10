@@ -1,5 +1,7 @@
 <?php
 
+require_once "env.php";
+
 spl_autoload_register("classLoad");
 function classLoad($class) {
   if(file_exists(__DIR__ . "/classes/{$class}.php")) {
@@ -11,6 +13,7 @@ function classLoad($class) {
 }
 require_once "Routes.php";
 require_once "classes/Database.php";
+
 
 $checkRoute = new Route();
 $checkRoute->run();

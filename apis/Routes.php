@@ -3,10 +3,7 @@
       View::make('index');
   });
   
-  Route::set('about-us', function () {
-      View::make('AboutUs');
+  Route::set('users/read', function () {
+      View::make('users/read');
   });
 
-  Route::set('contact-us', function () {
-      View::make('ContactUs');
-  });
