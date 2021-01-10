@@ -8,6 +8,11 @@ endif;
 
 $data = json_decode(file_get_contents("php://input"));
 
+if (!isset($data->id) || empty($data->id)) {
+  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
+  return;
+}
+
 $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
 $updateQuery = "UPDATE `$table_project_category` SET 
                   name = :name,
