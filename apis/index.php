@@ -2,17 +2,32 @@
 
 require_once "env.php";
 
-spl_autoload_register("classLoad");
-function classLoad($class) {
-  if(file_exists(__DIR__ . "/classes/{$class}.php")) {
-    require_once __DIR__ . "/classes/{$class}.php";
+class ClassLoader {
+  // class ファイルがあるディレクトリのリスト
+  private static $dirs;
+  public static function loadClass($class) {
+    foreach (self::directories() as $directory) {
+      $file_name = "{$directory}/{$class}.php";
+      if (is_file($file_name)) {
+        require_once $file_name;
+        return true;
+      }
+    }
   }
-  else if(file_exists(__DIR__ . "/Controllers/{$class}.php")) {
-    require_once __DIR__ . "/Controllers/{$class}.php";
+
+  private static function directories() {
+    if(empty(self::$dirs)) {
+      $base = __DIR__;
+      self::$dirs = [
+        $base . '/classes',
+      ];
+    }
+    return self::$dirs;
   }
 }
+spl_autoload_register(['ClassLoader', 'loadClass']);
+
 require_once "Routes.php";
-require_once "classes/Database.php";
 
 
 $checkRoute = new Route();
