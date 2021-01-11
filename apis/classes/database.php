@@ -20,22 +20,22 @@
           }
       }
 
-      public static function select($query, $params = array())
+      public static function fetch($query, $params = array())
       {
           $stmt = self::dbConnection();
           $stmt = $stmt->prepare($query);
           $stmt->execute();
           if ($stmt->rowCount() > 0 && $params) {
-              $postArray = [];
-              while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                foreach ($params as $param) {
-                  $arrayData = [
-                   "$param" => $row["$param"]
-                  ];
-                  array_push($postArray, $arrayData);
-                }
+            $postArray = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              foreach ($params as $param) {
+                $arrayData = [
+                  "$param" => $row["$param"]
+                ];
+                array_push($postArray, $arrayData);
               }
-              return $postArray;
+            }
+            return $postArray;
           } else if($stmt->rowCount() > 0) {
             return $stmt->fetchAll();
           }

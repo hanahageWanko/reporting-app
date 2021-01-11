@@ -24,7 +24,7 @@
          ? "SELECT * FROM `$table_users` WHERE id ='$postId'"
          : "SELECT * FROM `$table_users`";
   $fetchItem = ['id', 'email', 'user_name', 'last_login_name', 'create_date', 'update_date'];
-  $stmt = Database::select($sql, $fetchItem);
+  $stmt = Database::fetch($sql, $fetchItem);
   if($stmt) {
     echo json_encode($stmt);
   } else {
