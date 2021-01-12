@@ -30,7 +30,7 @@
                   s.user_id,
                   s.create_date,
                   p.name AS project_category,
-                  u.user_name  
+                  u.user_name
             FROM $table_study AS s
             LEFT OUTER JOIN $table_project_category AS p 
             ON s.project_id = p.id
@@ -52,7 +52,7 @@
             LEFT OUTER JOIN $table_users AS u
             ON s.user_id = u.id;";
 
-  $fetchItem = ['id', 'study_time', 'project_id', 'study_detail', 'study_date', 'user_id', 'create_date', 'project_id', 'user_name'];
+  $fetchItem = ['id', 'study_time', 'project_id', 'study_detail', 'study_date', 'user_id', 'create_date', 'project_category', 'user_name'];
   $stmt = Database::fetch($sql, $fetchItem);
   if($stmt) {
     echo json_encode($stmt);

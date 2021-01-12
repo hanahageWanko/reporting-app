@@ -9,4 +9,46 @@ class Validate
             'message' => $message
         ], $extra);
     }
+
+
+    public static function dataValidate($data)
+    {
+        $flag = true;
+        foreach ($data as $key => $value) {
+            if ((!isset($value)) || empty(trim($value))) {
+                $flag = false;
+            }
+        }
+        return $flag ? true : false;
+    }
+
+    public function lessThanStr($str, $int, $message)
+    {
+        if (mb_strlen($str) < $int) {
+            echo json_encode(self::resultMessage(0, 422, $message));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function moreThanStr($str, $int, $message)
+    {
+        if ($int < mb_strlen($str)) {
+            echo json_encode(self::resultMessage(0, 422, $message));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function mailFormat($email, $message)
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(Validate::resultMessage(0, 422, $message));
+            return false;
+        } else {
+            return true;
+        }
+    }
 };

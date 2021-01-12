@@ -20,28 +20,49 @@
           }
       }
 
-      public static function fetch($query, $params = array())
+      public static function fetch($query, $params = [])
       {
           $stmt = self::dbConnection();
           $stmt = $stmt->prepare($query);
           $stmt->execute();
           if ($stmt->rowCount() > 0 && $params) {
-            $postArray = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-              foreach ($params as $param) {
-                $arrayData = [
-                  "$param" => $row["$param"]
-                ];
-                array_push($postArray, $arrayData);
+              $postArray = [];
+              while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                  foreach ($params as $param) {
+                      $arrayData["$param"] = $row["$param"];
+                  }
+                  array_push($postArray, $arrayData);
+                  $arrayData = [];
               }
-            }
-            return $postArray;
-          } else if($stmt->rowCount() > 0) {
-            return $stmt->fetchAll();
+              
+              return $postArray;
+          } elseif ($stmt->rowCount() > 0) {
+              return $stmt->fetchAll();
           }
       }
 
-      public static function insert($query, $params = array()) {
-        
+      public static function select($query, $params = [])
+      {
+          $stmt = self::dbConnection();
+          $stmt = $stmt->prepare($query);
+          $stmt->execute($params);
+          return $stmt;
+      }
+
+      public static function post($query, $params = [])
+      {
+          $stmt = self::dbConnection();
+          $stmt = $stmt->prepare($query);
+          foreach ($params as $k => $v) {
+              if ((is_int($v))||(is_float($v))) {
+                  $type = PDO::PARAM_INT;
+              } else {
+                  $type = PDO::PARAM_STR;
+                  $v = htmlspecialchars($v);
+              }
+              $stmt->bindValue($k, $v, $type);
+          }
+          $stmt->execute();
+          return $stmt;
       }
   }
