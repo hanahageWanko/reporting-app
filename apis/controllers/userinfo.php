@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../headers/userInfo.php';
+require_once __DIR__ . '/../headers/userinfo.php';
 
 require __DIR__.'/../middlewares/auth.php';
 
