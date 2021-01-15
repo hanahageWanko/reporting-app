@@ -3,7 +3,7 @@ class Route
 {
     // Check if the target URI exists in the routing.
     // If it exists, return 1.
-    public function isRouteValid()
+    public static function isRouteValid()
     {
         global $Routes;
         $uri = $_SERVER['REQUEST_URI'];
