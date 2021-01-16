@@ -23,37 +23,37 @@
 
 
   // study_detail
-  Route::set('study_detail/read', function () {
-      View::make('study_detail/read');
+  Route::set('studydetail/read', function () {
+      View::make('studydetail/read');
   });
 
-  Route::set('study_detail/insert', function () {
-      View::make('study_detail/insert');
+  Route::set('studydetail/insert', function () {
+      View::make('studydetail/insert');
   });
 
-  Route::set('study_detail/update', function () {
-      View::make('study_detail/update');
+  Route::set('studydetail/update', function () {
+      View::make('studydetail/update');
   });
 
-  Route::set('study_detail/delete', function () {
-      View::make('study_detail/delete');
+  Route::set('studydetail/delete', function () {
+      View::make('studydetail/delete');
   });
 
   // project_category
-  Route::set('project_category/read', function () {
-      View::make('project_category/read');
+  Route::set('projectcategory/read', function () {
+      View::make('projectcategory/read');
   });
 
-  Route::set('project_category/insert', function () {
-      View::make('project_category/insert');
+  Route::set('projectcategory/insert', function () {
+      View::make('projectcategory/insert');
   });
 
-  Route::set('project_category/update', function () {
-      View::make('project_category/update');
+  Route::set('projectcategory/update', function () {
+      View::make('projectcategory/update');
   });
 
-  Route::set('project_category/delete', function () {
-      View::make('project_category/delete');
+  Route::set('projectcategory/delete', function () {
+      View::make('projectcategory/delete');
   });
 
   Route::set('userinfo', function () {
