@@ -22,7 +22,7 @@ class Validate
         return $flag ? true : false;
     }
 
-    public function lessThanStr($str, $int, $message)
+    public static function lessThanStr($str, $int, $message)
     {
         if (mb_strlen($str) < $int) {
             echo json_encode(self::resultMessage(0, 422, $message));
@@ -32,7 +32,7 @@ class Validate
         }
     }
 
-    public function moreThanStr($str, $int, $message)
+    public static function moreThanStr($str, $int, $message)
     {
         if ($int < mb_strlen($str)) {
             echo json_encode(self::resultMessage(0, 422, $message));
@@ -42,10 +42,20 @@ class Validate
         }
     }
 
-    public function mailFormat($email, $message)
+    public static function mailFormat($email, $message)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(Validate::resultMessage(0, 422, $message));
+            echo json_encode(self::resultMessage(0, 422, $message));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static function requestType($requestMethod)
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== $requestMethod) {
+            echo json_encode(self::resultMessage(0, 405, 'Method Not Allowed'));
             return false;
         } else {
             return true;

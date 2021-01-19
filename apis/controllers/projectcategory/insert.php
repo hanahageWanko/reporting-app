@@ -1,10 +1,11 @@
 <?php
   require_once __DIR__ . '/../../headers/insert.php';
 
-  if ($_SERVER["REQUEST_METHOD"] != "POST"):
-    echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
-    return;
-  endif;
+  Session::redirect(isset($_SESSION["login"]), '/login');
+
+  if (!Validate::requestType("POST")) {
+      exit();
+  }
   
   $data = json_decode(file_get_contents("php://input"));
   $name = $data->name;
@@ -26,8 +27,8 @@
 try {
     $checkItem = Database::select($checkName, [':name' => $name]);
     if ($checkItem->rowCount() > 0) {
-      echo json_encode(Validate::resultMessage(0, 422, 'This Name already in use!'));
-      return;
+        echo json_encode(Validate::resultMessage(0, 422, 'This Name already in use!'));
+        return;
     }
     
     $insert = Database::post($query, ['name'=>$name]);

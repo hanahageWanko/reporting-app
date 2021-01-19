@@ -1,16 +1,17 @@
 <?php
 require_once __DIR__ . '/../../headers/update.php';
 
-if ($_SERVER["REQUEST_METHOD"] != "PUT"):
-  echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
-  return;
-endif;
+Session::redirect(isset($_SESSION["login"]), '/login');
+
+if (!Validate::requestType("PUT")) {
+    exit();
+}
 
 $data = json_decode(file_get_contents("php://input"));
 
 if (!isset($data->id) || empty($data->id)) {
-  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
-  return;
+    echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
+    return;
 }
 
 $table_project_category = $_SERVER['T_PROJECT_CATEGORY'];
@@ -39,9 +40,9 @@ try {
     $checkName = Database::select($checkName, [':name' => $postName]);
     $checkName->fetch(PDO::FETCH_ASSOC);
     if ($checkName->rowCount() > 0 && $postName !== $row['name']) {
-     echo json_encode(Validate::resultMessage(0, 422, 'This Name already in use!'));
-     return;
-   }
+        echo json_encode(Validate::resultMessage(0, 422, 'This Name already in use!'));
+        return;
+    }
     
     if (!Validate::moreThanStr($postName, 100, 'The project category name can be up to 100 characters.')) {
         return;

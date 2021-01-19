@@ -1,10 +1,11 @@
 <?php
   require_once __DIR__ . '/../../headers/delete.php';
 
-  if ($_SERVER["REQUEST_METHOD"] != "DELETE"):
-    echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
-    return;
-  endif;
+  Session::redirect(isset($_SESSION["login"]), '/login');
+
+  if(!Validate::requestType("DELETE")) {
+    exit();
+  }
   
   $data = json_decode(file_get_contents("php://input"));
 

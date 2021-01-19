@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/../../headers/update.php';
 
-if ($_SERVER["REQUEST_METHOD"] != "PUT"):
-  echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
-  return;
-endif;
+Session::redirect(isset($_SESSION["login"]), '/login');
+
+  if (!Validate::requestType("PUT")) {
+      exit();
+  };
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -60,7 +61,7 @@ try {
     $postUserName       = Database::updateBindValue($row, $data, 'user_name');
     $postEmail          = Database::updateBindValue($row, $data, 'email');
     $postPassword       = Database::updateBindValue($row, $data, 'password');
-    $postLastLoginTime  = date('Y-m-d-H-i');
+    $postLastLoginTime  = $row['last_login_time'];
     $postUpdateDate     = date('Y-m-d-H-i');
     $postCreateDate     = $row['create_date'];
     

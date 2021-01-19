@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/../../headers/delete.php';
 
-if ($_SERVER["REQUEST_METHOD"] != "DELETE"):
-  echo json_encode(Validate::resultMessage(0, 405, 'Method Not Allowed'));
-  return;
-endif;
+Session::redirect(isset($_SESSION["login"]), '/login');
+
+  if(!Validate::requestType("DELETE")) {
+    exit();
+  };
 
 $data = json_decode(file_get_contents("php://input"));
 $table_users = $_SERVER['T_USER'];
@@ -20,19 +21,18 @@ $deletePost = "DELETE $table_users" . "," . "$table_study
 
 // 削除対象が存在するかどうかを検索
 if (!isset($postId) || empty($postId)) {
-  echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
-  return;
+    echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
+    return;
 }
   
 try {
-  $checkItem = Database::select($checkPost, [':id' => $postId]);
-  if ($checkItem->rowCount() === 0) {
-      echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
-      return;
-  }
-  Database::post($deletePost, [':id' => $postId]);
-  echo json_encode(Validate::resultMessage(0, 200, 'Post Deleted Successfuly'));
+    $checkItem = Database::select($checkPost, [':id' => $postId]);
+    if ($checkItem->rowCount() === 0) {
+        echo json_encode(Validate::resultMessage(0, 400, 'Invlid ID'));
+        return;
+    }
+    Database::post($deletePost, [':id' => $postId]);
+    echo json_encode(Validate::resultMessage(0, 200, 'Post Deleted Successfuly'));
 } catch (PDOException $e) {
-  echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
+    echo json_encode(Validate::resultMessage(0, 500, $e->getMessage()));
 }
-

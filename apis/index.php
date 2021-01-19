@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 require_once "env.php";
+session_start();
 
 class ClassLoader {
   // class ファイルがあるディレクトリのリスト
@@ -28,7 +29,6 @@ class ClassLoader {
 spl_autoload_register(['ClassLoader', 'loadClass']);
 
 require_once "Routes.php";
-
 
 $checkRoute = new Route();
 $checkRoute->run();

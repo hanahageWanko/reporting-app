@@ -63,3 +63,7 @@
   Route::set('login', function () {
       View::make('login');
   });
+
+  Route::set('logout', function () {
+      View::make('logout');
+  });
