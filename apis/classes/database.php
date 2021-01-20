@@ -58,7 +58,6 @@
                   $type = PDO::PARAM_INT;
               } else {
                   $type = PDO::PARAM_STR;
-                  $v = htmlspecialchars($v);
               }
               $stmt->bindValue($k, $v, $type);
           }

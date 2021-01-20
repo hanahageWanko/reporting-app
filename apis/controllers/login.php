@@ -26,7 +26,7 @@ $password  =trim($data->password);
 if (!Validate::mailFormat($email, 'Invalid Email Address!')) {
     return;
 }
-if (!Validate::lessThanStr(htmlspecialchars($password), 8, 'Your password must be at least 8 characters long!')) {
+if (!Validate::lessThanStr($password, 8, 'Your password must be at least 8 characters long!')) {
     return;
 }
 

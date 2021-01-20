@@ -41,8 +41,8 @@ Session::redirect(isset($_SESSION["login"]), '/login');
       } else {
           $insert_query = "INSERT INTO `$table_users` (user_name, email, password) VALUES(:user_name, :email, :password)";
           $insert_stmt = Database::dbConnection()->prepare($insert_query);
-          $insert_stmt->bindValue(':user_name', htmlspecialchars(strip_tags($user_name)), PDO::PARAM_STR);
-          $insert_stmt->bindValue(':email', htmlspecialchars(strip_tags($email)), PDO::PARAM_STR);
+          $insert_stmt->bindValue(':user_name', strip_tags($user_name), PDO::PARAM_STR);
+          $insert_stmt->bindValue(':email', strip_tags($email), PDO::PARAM_STR);
           $insert_stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
           $insert_stmt->execute();
           echo json_encode(Validate::resultMessage(1, 201, 'You have successfully registered.'));
