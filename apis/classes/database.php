@@ -14,7 +14,7 @@
               $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
               $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
               return $conn;
-          } catch (PDOExeption $e) {
+          } catch (PDOException $e) {
               echo "Connenction error ".$e->getMessage();
               exit;
           }
