@@ -42,7 +42,8 @@ class Route
         } elseif (explode('?', $_SERVER['REQUEST_URI'])[0] == "/".$route) {
             self::registerRoute($route);
             $closure->__invoke();
-        } elseif ($_GET['url'] == explode('/', $route)[0]) {
+        } elseif (array_key_exists('url', $_GET) && $_GET['url'] == explode('/', $route)[0]) {
+            echo '入った';
             self::registerRoute(self::dyn($route));
             $closure->__invoke();
         }
